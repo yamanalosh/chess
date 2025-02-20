@@ -20,7 +20,7 @@ public class Piece {
         
         try {
             if (this.img == null) {
-              this.img = ImageIO.read(new File(img_file));
+              this.img = ImageIO.read(getClass().getResource(img_file));
             }
           } catch (IOException e) {
             System.out.println("File not found: " + e.getMessage());
