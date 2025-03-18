@@ -60,7 +60,22 @@ public class Piece {
     //returns an arraylist of squares which are legal to move to
     //please note that your piece must have some sort of logic. Just being able to move to every square on the board is not
     //going to score any points.
+    // the queens can move one piece forward and two pieces forward.
     public ArrayList<Square> getLegalMoves(Board b, Square start){
-    	return null;
+      //check for in bounds, other pieces in your way
+      ArrayList<Square> returnList = new ArrayList<Square>();
+      for (int i = 0; i < 7; i++) {
+        for (int j = start.getCol(); j < 8; j++) {
+          if (b.getSquareArray()[i][start.getCol()].isOccupied() == false) {
+            if (i == start.getRow() - 1 || i == start.getRow() - 2) {
+              returnList.append(b.getSquareArray()[i][start.getCol()]);
+          }
+        }
+        else if (i == start.getRow() - 1) {
+            returnList.append(b[i][start.getCol()]);
+        }
     }
 }
+return returnList;
+    }
+  }

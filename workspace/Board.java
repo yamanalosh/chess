@@ -60,7 +60,17 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
         //TO BE IMPLEMENTED FIRST
      
-      //for (.....)  
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (i% 2 == 0) {
+            board[i][j] = new Square(this, j%2==0, i, j);
+            }
+            else {
+                board[i][j] = new Square(this, j%2 == 1, i, j);
+            }
+            this.add(board[i][j]);
+        }
+      }
 //        	populate the board with squares here. Note that the board is composed of 64 squares alternating from 
 //        	white to black.
 
@@ -80,8 +90,16 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	//since we only have one kind of piece for now you need only set the same number of pieces on either side.
 	//it's up to you how you wish to arrange your pieces.
     private void initializePieces() {
-    	
-    	board[0][0].put(new Piece(true, RESOURCES_WKING_PNG));
+    	for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j].put(new Piece(true, RESOURCES_WQUEEN_PNG));
+            }
+        }
+        for (int i = 6; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j].put(new Piece(false, RESOURCES_BQUEEN_PNG));
+            }
+        }
 
     }
 
@@ -151,6 +169,12 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
         
         //using currPiece
+        for (Square s : currPiece.getLegalMoves(board, fromMoveSquare)) {
+            s.repaint();
+            if (endSquare == s) {
+                endSquare.put(currPiece);
+            }
+        }
         
        
         fromMoveSquare.setDisplay(true);
@@ -162,8 +186,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     public void mouseDragged(MouseEvent e) {
         currX = e.getX() - 24;
         currY = e.getY() - 24;
-
         repaint();
+        for (Square s : currPiece.getLegalMoves(board, fromMoveSquare)) {
+            s.paintComponent(getGraphics());
+        }
     }
 
     @Override
